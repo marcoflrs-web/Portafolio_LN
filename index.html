@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lenguaje Artificial con Python - Dark Edition</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Rubik:wght@400;700&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Rubik', sans-serif;
+            background: #0a0a0a;
+            min-height: 100vh;
+            color: #e0e0e0;
+            overflow-x: hidden;
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: #fff;
+            padding: 20px;
+            position: relative;
+            overflow: hidden;
+            background: radial-gradient(ellipse at center, #1a0033 0%, #0a0a0a 70%);
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: 
+                radial-gradient(2px 2px at 20% 30%, #8b00ff, transparent),
+                radial-gradient(2px 2px at 60% 70%, #ff0080, transparent),
+                radial-gradient(1px 1px at 50% 50%, #00ffff, transparent),
+                radial-gradient(1px 1px at 80% 10%, #8b00ff, transparent),
+                radial-gradient(2px 2px at 90% 60%, #ff0080, transparent),
+                radial-gradient(1px 1px at 33% 80%, #00ffff, transparent);
+            background-size: 200% 200%;
+            animation: stars 20s linear infinite;
+            opacity: 0.5;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, transparent 30%, rgba(139, 0, 255, 0.1) 50%, transparent 70%);
+            animation: scan 8s linear infinite;
+        }
+
+        @keyframes stars {
+            0% { background-position: 0% 0%; }
+            100% { background-position: 100% 100%; }
+        }
+
+        @keyframes scan {
+            0% { transform: translateY(-100%); }
+            100% { transform: translateY(100%); }
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero h1 {
+            font-family: 'Rubik', sans-serif;
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            text-shadow: 
+                0 0 10px #8b00ff,
+                0 0 20px #8b00ff;
+            animation: fadeInDown 1s ease-out;
+            letter-spacing: 2px;
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            margin-bottom: 40px;
+            color: #b8b8b8;
+            text-shadow: 0 0 10px rgba(139, 0, 255, 0.3);
+            animation: fadeInUp 1s ease-out 0.3s both;
+            font-weight: 400;
+            letter-spacing: 1px;
+        }
+        
+        .hero-author {
+            font-size: 1rem;
+            color: #8b00ff;
+            text-shadow: 0 0 10px rgba(139, 0, 255, 0.5);
+            animation: fadeInUp 1s ease-out 0.5s both;
+            font-weight: 600;
+            letter-spacing: 1px;
+            margin-top: 20px;
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Catalog Section */
+        .catalog-section {
+            background: #0a0a0a;
+            padding: 80px 20px;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        .catalog-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: repeating-linear-gradient(
+                0deg,
+                transparent,
+                transparent 2px,
+                rgba(139, 0, 255, 0.03) 2px,
+                rgba(139, 0, 255, 0.03) 4px
+            );
+            pointer-events: none;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .section-title {
+            text-align: center;
+            font-family: 'Rubik', sans-serif;
+            font-size: 2.5rem;
+            color: #fff;
+            margin-bottom: 20px;
+            font-weight: 700;
+            text-shadow: 
+                0 0 10px #8b00ff,
+                0 0 20px #8b00ff;
+            letter-spacing: 2px;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            font-size: 1.2rem;
+            color: #8b00ff;
+            margin-bottom: 60px;
+            text-shadow: 0 0 10px #8b00ff;
+            font-weight: 600;
+        }
+
+        /* Cards Grid */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 35px;
+            padding: 20px 0;
+        }
+
+        .card {
+            background: linear-gradient(145deg, #1a0033, #0d0d0d);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 
+                0 0 30px rgba(139, 0, 255, 0.3),
+                inset 0 0 20px rgba(0, 0, 0, 0.5);
+            transition: all 0.4s ease;
+            cursor: pointer;
+            border: 2px solid rgba(139, 0, 255, 0.3);
+            position: relative;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                45deg,
+                transparent 30%,
+                rgba(139, 0, 255, 0.1) 50%,
+                transparent 70%
+            );
+            transform: rotate(45deg);
+            animation: shine 3s infinite;
+        }
+
+        @keyframes shine {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+        }
+
+        .card:hover {
+            transform: translateY(-15px) scale(1.02);
+            box-shadow: 
+                0 0 50px rgba(139, 0, 255, 0.6),
+                0 0 100px rgba(255, 0, 128, 0.4),
+                inset 0 0 30px rgba(0, 0, 0, 0.7);
+            border-color: #8b00ff;
+        }
+
+        .card-image {
+            width: 100%;
+            height: 220px;
+            background: linear-gradient(135deg, #1a0033 0%, #330066 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            border-bottom: 2px solid rgba(139, 0, 255, 0.5);
+        }
+
+        .card-image::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, transparent 30%, rgba(0, 0, 0, 0.8) 100%);
+        }
+
+        .card-icon {
+            font-size: 5rem;
+            z-index: 1;
+            position: relative;
+            filter: drop-shadow(0 0 20px #8b00ff) drop-shadow(0 0 40px #ff0080);
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { 
+                transform: scale(1);
+                filter: drop-shadow(0 0 20px #8b00ff) drop-shadow(0 0 40px #ff0080);
+            }
+            50% { 
+                transform: scale(1.1);
+                filter: drop-shadow(0 0 30px #8b00ff) drop-shadow(0 0 60px #ff0080);
+            }
+        }
+
+        .card-content {
+            padding: 30px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .card-title {
+            font-size: 1.6rem;
+            color: #fff;
+            margin-bottom: 15px;
+            font-weight: 700;
+            text-shadow: 0 0 10px #8b00ff;
+            letter-spacing: 1px;
+        }
+
+        .card-description {
+            color: #b8b8b8;
+            line-height: 1.7;
+            font-size: 0.95rem;
+            text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+            margin-bottom: 15px;
+        }
+
+        .card-link {
+            display: inline-block;
+            color: #8b00ff;
+            text-decoration: none;
+            font-weight: 600;
+            padding: 8px 20px;
+            border: 2px solid #8b00ff;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+            text-shadow: 0 0 10px rgba(139, 0, 255, 0.5);
+        }
+
+        .card-link:hover {
+            background: #8b00ff;
+            color: #fff;
+            box-shadow: 0 0 20px rgba(139, 0, 255, 0.8);
+            transform: translateY(-2px);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 3rem;
+            }
+
+            .hero p {
+                font-size: 1.3rem;
+            }
+
+            .section-title {
+                font-size: 2.2rem;
+            }
+
+            .cards-grid {
+                grid-template-columns: 1fr;
+                gap: 25px;
+            }
+
+            .catalog-section {
+                padding: 60px 15px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+
+            .hero p {
+                font-size: 1.1rem;
+            }
+
+            .card-content {
+                padding: 20px;
+            }
+
+            .card-icon {
+                font-size: 4rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Lenguaje Artificial<br>con Python</h1>
+            <p>Procesamiento de Lenguaje Natural</p>
+            <p class="hero-author">Hecho por Marco Antonio Flores Flores</p>
+        </div>
+    </section>
+
+    <!-- Catalog Section -->
+    <section class="catalog-section">
+        <div class="container">
+            <h2 class="section-title">Catálogo de Técnicas</h2>
+            <p class="section-subtitle">Explora las herramientas de procesamiento de lenguaje natural</p>
+
+            <div class="cards-grid">
+                <!-- Card 1: Análisis de Sentimiento -->
+                <div class="card">
+                    <div class="card-image" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                        <div class="card-icon">💭</div>
+                    </div>
+                    <div class="card-content">
+                        <h3 class="card-title">Análisis de Sentimiento</h3>
+                        <p class="card-description">Identificación y clasificación de emociones en texto utilizando Python y técnicas de NLP.</p>
+                        <a href="analisis.HTML" class="card-link">Ver demo →</a>
+                    </div>
+                </div>
+
+                <!-- Card 2: Búsqueda -->
+                <div class="card">
+                    <div class="card-image" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+                        <div class="card-icon">🔎</div>
+                    </div>
+                    <div class="card-content">
+                        <h3 class="card-title">Búsqueda</h3>
+                        <p class="card-description">Técnicas de búsqueda y recuperación de información en corpus de texto.</p>
+                        <a href="busqueda.HTML" class="card-link">Ver demo →</a>
+                    </div>
+                </div>
+
+                <!-- Card 3: Estructuras For -->
+                <div class="card">
+                    <div class="card-image" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
+                        <div class="card-icon">🔄</div>
+                    </div>
+                    <div class="card-content">
+                        <h3 class="card-title">Estructuras For</h3>
+                        <p class="card-description">Iteración y procesamiento de datos textuales con bucles en Python.</p>
+                        <a href="for.HTML" class="card-link">Ver demo →</a>
+                    </div>
+                </div>
+
+                <!-- Card 4: Frecuencia -->
+                <div class="card">
+                    <div class="card-image" style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);">
+                        <div class="card-icon">📊</div>
+                    </div>
+                    <div class="card-content">
+                        <h3 class="card-title">Frecuencia</h3>
+                        <p class="card-description">Análisis de frecuencia de palabras y patrones lingüísticos en textos.</p>
+                        <a href="frecu.HTML" class="card-link">Ver demo →</a>
+                    </div>
+                </div>
+
+                <!-- Card 5: Tokens -->
+                <div class="card">
+                    <div class="card-image" style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);">
+                        <div class="card-icon">🎯</div>
+                    </div>
+                    <div class="card-content">
+                        <h3 class="card-title">Tokens</h3>
+                        <p class="card-description">Tokenización y segmentación de texto en unidades significativas.</p>
+                        <a href="TOKENS.HTML" class="card-link">Ver demo →</a>
+                    </div>
+                </div>
+
+                <!-- Card 6: Longitud -->
+                <div class="card">
+                    <div class="card-image" style="background: linear-gradient(135deg, #30cfd0 0%, #330867 100%);">
+                        <div class="card-icon">📏</div>
+                    </div>
+                    <div class="card-content">
+                        <h3 class="card-title">Longitud</h3>
+                        <p class="card-description">Medición y análisis de longitud de textos, palabras y oraciones.</p>
+                        <a href="longitud.HTML" class="card-link">Ver demo →</a>
+                    </div>
+                </div>
+
+                <!-- Card 7: Eliminar Signos -->
+                <div class="card">
+                    <div class="card-image" style="background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);">
+                        <div class="card-icon">✨</div>
+                    </div>
+                    <div class="card-content">
+                        <h3 class="card-title">Eliminar Signos</h3>
+                        <p class="card-description">Limpieza y normalización de texto eliminando caracteres especiales.</p>
+                        <a href="eliminar.HTML" class="card-link">Ver demo →</a>
+                    </div>
+                </div>
+
+                <!-- Card 8: Preprocesamiento -->
+                <div class="card">
+                    <div class="card-image" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                        <div class="card-icon">⚙️</div>
+                    </div>
+                    <div class="card-content">
+                        <h3 class="card-title">Preprocesamiento</h3>
+                        <p class="card-description">Tokenización y preparación de datos para análisis de texto.</p>
+                        <a href="preprocesamiento.html" class="card-link">Ver demo →</a>
+                    </div>
+                </div>
+
+                <!-- Card 9: Traductor -->
+                <div class="card">
+                    <div class="card-image" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+                        <div class="card-icon">🌐</div>
+                    </div>
+                    <div class="card-content">
+                        <h3 class="card-title">Traductor</h3>
+                        <p class="card-description">Traduce texto entre 3 idiomas diferentes utilizando NLP.</p>
+                        <a href="traductor.html" class="card-link">Ver demo →</a>
+                    </div>
+                </div>
+
+                <!-- Card 10: Traductor 2 -->
+                <div class="card">
+                    <div class="card-image" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
+                        <div class="card-icon">🌍</div>
+                    </div>
+                    <div class="card-content">
+                        <h3 class="card-title">Traductor 2</h3>
+                        <p class="card-description">Versión extendida que traduce texto entre 5 idiomas diferentes.</p>
+                        <a href="traductor2.html" class="card-link">Ver demo →</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+</html>
