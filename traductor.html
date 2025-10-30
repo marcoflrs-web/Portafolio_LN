@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tema con Código y Glosario</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 50px;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        .content-wrapper {
+            background: #f5f5f5;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .tema-titulo {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .tema-titulo h2 {
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+
+        .tema-titulo p {
+            font-size: 1.1em;
+            opacity: 0.95;
+        }
+
+        .section {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+
+        .section h3 {
+            color: #667eea;
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #667eea;
+        }
+
+        .code-container {
+            background: #2d3748;
+            border-radius: 10px;
+            padding: 20px;
+            overflow-x: auto;
+            margin-top: 15px;
+        }
+
+        .code-container pre {
+            margin: 0;
+            color: #e2e8f0;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.95em;
+            line-height: 1.6;
+        }
+
+        .code-container code {
+            display: block;
+        }
+
+        .keyword { color: #ff79c6; }
+        .function { color: #50fa7b; }
+        .string { color: #f1fa8c; }
+        .comment { color: #6272a4; }
+        .number { color: #bd93f9; }
+
+        .glosario-item {
+            background: #f7fafc;
+            border-left: 4px solid #667eea;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .glosario-item:hover {
+            transform: translateX(5px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .glosario-item h4 {
+            color: #667eea;
+            font-size: 1.3em;
+            margin-bottom: 10px;
+            font-family: 'Courier New', Courier, monospace;
+        }
+
+        .glosario-item p {
+            color: #4a5568;
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+
+        .parametros {
+            background: white;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 10px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .parametros strong {
+            color: #667eea;
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .parametros code {
+            background: #2d3748;
+            color: #50fa7b;
+            padding: 2px 8px;
+            border-radius: 3px;
+            font-size: 0.9em;
+        }
+
+        @media (max-width: 768px) {
+            .content-wrapper {
+                padding: 20px;
+            }
+
+            .header h1 {
+                font-size: 1.8em;
+            }
+
+            .tema-titulo h2 {
+                font-size: 1.5em;
+            }
+
+            .section h3 {
+                font-size: 1.5em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Realizado por: MARCO ANTONIO FLORES FLORES</h1>
+            <p>Especialidad de IA del CBTIS 144</p>
+        </div>
+
+        <div class="content-wrapper">
+            <div class="tema-titulo">
+                <h2>Tema 9: Traduce 3 idomas diferentes</h2>
+                <p>Traductor</p>
+            </div>
+
+            <div class="section">
+                <h3>Traductor</h3>
+                <div class="code-container">
+                    <pre>
+import re
+import nltk
+from deep_translator import GoogleTranslator
+from nltk.tokenize import word_tokenize, sent_tokenize
+
+# Descarga de modelos de tokenización (descomenta si es necesario)
+# nltk.download('punkt_tab')
+
+# Ejemplo de texto a tokenizar
+texto = ("En la materia de lenguaje natural PLN y vision artificial VA, se desarrolla"
+         "un portafolio de practicas como material de apoyo para los siguientes"
+         "semestres de la especialidad, incluyendo practicas y glosario de funciones"
+         "por cada practica")
+
+
+# Función para limpiar texto
+def limpiar_texto(texto):
+    # Convertir en minúscula
+    texto_limpio = texto.lower()
+    # Quitar saltos de línea y espacios
+    texto_limpio = texto_limpio.strip()
+    # Elimina caracteres que no sean letras
+    texto_limpio = re.sub(r'[^a-záéíóúüñ\s]', '', texto_limpio)
+    return texto_limpio
+
+
+# Función para tokenizar
+def tokenizar_texto(texto, texto_limpio, idioma='spanish'):
+    print(f"\n{'=' * 60}")
+    print(f"IDIOMA: {idioma.upper()}")
+    print(f"{'=' * 60}")
+
+    # Token por palabras
+    palabras = word_tokenize(texto_limpio, language=idioma)
+    print(f"Token en palabras: {palabras}")
+
+    # Token por oraciones
+    oraciones = sent_tokenize(texto)
+    print(f"Token en oraciones: {oraciones}")
+
+    print(f"Texto original: {texto}")
+    print(f"Texto limpio: {texto_limpio}")
+
+
+# Diccionario de idiomas a traducir
+idiomas = {
+    'Español': {'codigo': 'es', 'nltk': 'spanish'},
+    'Inglés': {'codigo': 'en', 'nltk': 'english'},
+    'Francés': {'codigo': 'fr', 'nltk': 'french'},
+    'Alemán': {'codigo': 'de', 'nltk': 'german'}
+}
+
+# Procesar texto original en español
+print("\n" + "🔵 TEXTO ORIGINAL - ESPAÑOL 🔵".center(60))
+texto_limpio_es = limpiar_texto(texto)
+tokenizar_texto(texto, texto_limpio_es, 'spanish')
+
+# Traducir y procesar en otros idiomas
+for nombre_idioma, config in list(idiomas.items())[1:]:  # Saltamos español
+    print(
+        f"\n{'🟢' if nombre_idioma == 'Inglés' else '🟡' if nombre_idioma == 'Francés' else '🟠'} TRADUCCIÓN - {nombre_idioma.upper()} {'🟢' if nombre_idioma == 'Inglés' else '🟡' if nombre_idioma == 'Francés' else '🟠'}".center(
+            60))
+
+    # Traducir texto
+    traductor = GoogleTranslator(source='es', target=config['codigo'])
+    texto_traducido = traductor.translate(texto)
+
+    # Limpiar texto traducido
+    if nombre_idioma == 'Inglés':
+        patron = r'[^a-z\s]'
+    elif nombre_idioma == 'Francés':
+        patron = r'[^a-zàâäéèêëïîôùûüÿæœç\s]'
+    else:  # Alemán
+        patron = r'[^a-zäöüß\s]'
+
+    texto_traducido_limpio = texto_traducido.lower().strip()
+    texto_traducido_limpio = re.sub(patron, '', texto_traducido_limpio)
+
+    # Tokenizar
+    tokenizar_texto(texto_traducido, texto_traducido_limpio, config['nltk'])
+                    </pre>
+                </div>
+            </div>
+
+            <div class="section">
+                <h3>📚 Glosario de Funciones</h3>
+
+                <div class="glosario-item">
+                    <h4>import</h4>
+                    <p>Se usa para traer módulos o librerías (código ya escrito por ti u otras personas) para que puedas usar sus funciones, clases o variables sin tener que escribirlas desde cero.</p>
+                    <h4>re</h4>
+                    <p>Es una función como tal, sino un módulo llamado re que sirve para trabajar con expresiones regulares (regular expressions).</p>
+                    <h4>nltk</h4>
+                    <p>Es una librería muy poderosa para procesar lenguaje natural (NLP) en Python.<p>
+
+                        <p>•Sirve para trabajar con texto humano, como por ejemplo:<p>
+
+                        <p>•Separar oraciones o palabras<p>
+
+                        <p>•Analizar la gramática de una frase<p>
+
+                        <p>•Eliminar palabras vacías como “el”, “la”, “de”, etc.<p>
+
+                        <p>•Hacer análisis de sentimiento<p>
+
+                        <p>•Clasificar texto (spam/no spam, por ejemplo)<p>
+
+                        <p>•Y mucho más</p>
+                    <h4>nltk.download</h4>
+                    <p>La función nltk.download() se usa para descargar recursos adicionales que la librería nltk necesita para funcionar.</p>
+                    <h4>GoogleTranslator</h4>
+                    <p>Se refiere a una clase o módulo usado para traducir texto utilizando Google Translate, usualmente a través de una librería como deep-translator
+                    o implementaciones similares (no oficiales) que permiten traducir sin usar directamente la API oficial de Google Cloud.</p>
+                    <h4>word_tokenize</h4>
+                    <p>es una función de NLTK (Natural Language Toolkit) en Python que divide un texto en palabras (tokens). Es una técnica básica de procesamiento de lenguaje natural (NLP).</p>
+                </div>               
+            </div>
+        </div>
+    </div>
+</body>
+</html>
