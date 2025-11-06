@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Estructuras For - Dark Edition</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Rubik:wght@400;600;700&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Rubik', sans-serif;
+            background: #0a0a0a;
+            min-height: 100vh;
+            color: #e0e0e0;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 50px;
+            position: relative;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 0 0 10px #8b00ff, 0 0 20px #8b00ff;
+            color: #fff;
+            font-weight: 700;
+        }
+
+        .header p {
+            font-size: 1.1em;
+            color: #8b00ff;
+            text-shadow: 0 0 10px rgba(139, 0, 255, 0.5);
+            font-weight: 600;
+        }
+
+        .content-wrapper {
+            background: linear-gradient(145deg, #1a0033, #0d0d0d);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 0 30px rgba(139, 0, 255, 0.3);
+            border: 2px solid rgba(139, 0, 255, 0.3);
+        }
+
+        .tema-titulo {
+            background: linear-gradient(135deg, #8b00ff, #ff0080);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            text-align: center;
+            box-shadow: 0 0 20px rgba(139, 0, 255, 0.5);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .tema-titulo h2 {
+            font-size: 2em;
+            margin-bottom: 10px;
+            text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .tema-titulo p {
+            font-size: 1.1em;
+            opacity: 0.95;
+            font-weight: 600;
+        }
+
+        .section {
+            background: linear-gradient(145deg, #0d0d0d, #1a1a1a);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 0 20px rgba(139, 0, 255, 0.2);
+            border: 1px solid rgba(139, 0, 255, 0.3);
+        }
+
+        .section h3 {
+            color: #8b00ff;
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #8b00ff;
+            text-shadow: 0 0 10px rgba(139, 0, 255, 0.5);
+        }
+
+        .code-container {
+            background: #000000;
+            border-radius: 10px;
+            padding: 25px;
+            overflow-x: auto;
+            margin-top: 15px;
+            border: 1px solid #8b00ff;
+            box-shadow: 
+                0 0 10px rgba(139, 0, 255, 0.3),
+                inset 0 0 20px rgba(139, 0, 255, 0.05);
+        }
+
+        .code-container pre {
+            margin: 0;
+            color: #e2e8f0;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.95em;
+            line-height: 1.8;
+        }
+
+        .code-container code {
+            display: block;
+        }
+
+        .glosario-item {
+            background: linear-gradient(145deg, #1a0033, #0d0d0d);
+            border-left: 4px solid #8b00ff;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 15px rgba(139, 0, 255, 0.1);
+        }
+
+        .glosario-item:hover {
+            transform: translateX(5px);
+            box-shadow: 0 0 25px rgba(139, 0, 255, 0.4);
+            border-left-color: #ff0080;
+        }
+
+        .glosario-item h4 {
+            color: #8b00ff;
+            font-size: 1.3em;
+            margin-bottom: 10px;
+            font-family: 'Courier New', Courier, monospace;
+            text-shadow: 0 0 10px rgba(139, 0, 255, 0.5);
+        }
+
+        .glosario-item p {
+            color: #b8b8b8;
+            line-height: 1.7;
+            margin-bottom: 10px;
+        }
+
+        .back-button {
+            display: inline-block;
+            margin-bottom: 30px;
+            padding: 12px 30px;
+            background: linear-gradient(135deg, #8b00ff, #ff0080);
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 20px rgba(139, 0, 255, 0.4);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .back-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 0 30px rgba(139, 0, 255, 0.6);
+        }
+
+        @media (max-width: 768px) {
+            .content-wrapper {
+                padding: 20px;
+            }
+
+            .header h1 {
+                font-size: 1.8em;
+            }
+
+            .tema-titulo h2 {
+                font-size: 1.5em;
+            }
+
+            .section h3 {
+                font-size: 1.5em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="indexln.html" class="back-button">← Volver al catálogo</a>
+        
+        <div class="header">
+            <h1>Hecho por Marco Antonio Flores Flores</h1>
+            <p>Especialidad de IA del CBTIS 144</p>
+        </div>
+
+        <div class="content-wrapper">
+            <div class="tema-titulo">
+                <h2>Tema 11: Chat listas</h2>
+                <p>Chatbot</p>
+            </div>
+
+            <div class="section">
+                <h3>Chatbot</h3>
+                <div class="code-container">
+                    <pre><code>
+#ejemplo chatbot con listas basico
+import random
+#listas de saludos y respuestas
+saludos=["hola","que tal","buenos dias","buenas tardes","buen dia"]
+respuestas_saludos=["hola como estas?",
+                    "como puedo ayudarte",
+                    "hola, como te va",
+                    "que hay?"]
+despedida=["adios","bye","gracias","nos vemos","hasta luego","salir"]
+
+
+respuesta_despedida=["adios,hasta prontoooo 😋😋",
+                     "nos vemos luegoooo 😁😁",
+                     "fue un placer ayudarte",
+                     "cuidateeee",
+                     "byeeee"]
+pre1 = ["como estas"]
+pre2 = ["ya comiste"]
+pre3 = ["que haces"]
+pre4 = ["tienes sueñoo"]
+
+res1 = ["Bien","mal","mas o menos","normal"]
+res2 = ["si","no","no tengo hambre pero gracias por preguntar ☺"]
+res3 = ["nada","pensandooo 😋😋"]
+res4 = ["Nooo kjsskjkj","siii de verdad ya no aguantoo de sueñoo 😪😪"]
+
+#mensaje de vienvenida del chatbot
+print("Hola soy chatoo,tu chatbot de confianza, si deseas"
+      "terminar escribe 'salir'")
+
+while True:
+    usuario = input("Tu:").lower().strip()
+    if usuario in saludos:
+        print("chatbot:",random.choice(respuestas_saludos))
+    elif usuario in pre1:
+        print("chatbot:",random.choice(res1))
+    elif usuario in pre2:
+        print("chatbot:",random.choice(res2))
+    elif usuario in pre3:
+        print("chatbot:",random.choice(res3))
+    elif usuario in pre4:
+        print("chatbot:",random.choice(res4))
+    elif usuario in despedida:
+        print("chatbot:",random.choice(respuesta_despedida))
+        break
+"</code></pre>
+                </div>
+            </div>
+
+            <div class="section">
+                <h3>📚 Glosario de Funciones</h3>
+
+                <div class="glosario-item">
+                    <h4>if</h4>
+                    <p>Es una estructura de control condicional.
+                    Se usa para ejecutar un bloque de código solo si una condición se cumple (es decir, si es verdadera).</p>
+                    <h4>elif</h4>
+                    <p>en Python significa “else if” (es decir, “si no… pero si…”).
+                    Se usa junto con if y else para comprobar múltiples condiciones sin tener que anidar muchos if.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
