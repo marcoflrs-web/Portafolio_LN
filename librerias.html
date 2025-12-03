@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Librerías de PNL para Chatbots - Dark Edition</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Rubik:wght@400;700&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Rubik', sans-serif;
+            background: #0a0a0a;
+            min-height: 100vh;
+            color: #e0e0e0;
+            overflow-x: hidden;
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: #fff;
+            padding: 20px;
+            position: relative;
+            overflow: hidden;
+            background: radial-gradient(ellipse at center, #1a0033 0%, #0a0a0a 70%);
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: 
+                radial-gradient(2px 2px at 20% 30%, #8b00ff, transparent),
+                radial-gradient(2px 2px at 60% 70%, #ff0080, transparent),
+                radial-gradient(1px 1px at 50% 50%, #00ffff, transparent),
+                radial-gradient(1px 1px at 80% 10%, #8b00ff, transparent),
+                radial-gradient(2px 2px at 90% 60%, #ff0080, transparent),
+                radial-gradient(1px 1px at 33% 80%, #00ffff, transparent);
+            background-size: 200% 200%;
+            animation: stars 20s linear infinite;
+            opacity: 0.5;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, transparent 30%, rgba(139, 0, 255, 0.1) 50%, transparent 70%);
+            animation: scan 8s linear infinite;
+        }
+
+        @keyframes stars {
+            0% { background-position: 0% 0%; }
+            100% { background-position: 100% 100%; }
+        }
+
+        @keyframes scan {
+            0% { transform: translateY(-100%); }
+            100% { transform: translateY(100%); }
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero h1 {
+            font-family: 'Rubik', sans-serif;
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            text-shadow: 
+                0 0 10px #8b00ff,
+                0 0 20px #8b00ff;
+            animation: fadeInDown 1s ease-out;
+            letter-spacing: 2px;
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            margin-bottom: 40px;
+            color: #b8b8b8;
+            text-shadow: 0 0 10px rgba(139, 0, 255, 0.3);
+            animation: fadeInUp 1s ease-out 0.3s both;
+            font-weight: 400;
+            letter-spacing: 1px;
+        }
+        
+        .hero-author {
+            font-size: 1rem;
+            color: #8b00ff;
+            text-shadow: 0 0 10px rgba(139, 0, 255, 0.5);
+            animation: fadeInUp 1s ease-out 0.5s both;
+            font-weight: 600;
+            letter-spacing: 1px;
+            margin-top: 20px;
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Catalog Section */
+        .catalog-section {
+            background: #0a0a0a;
+            padding: 80px 20px;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        .catalog-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: repeating-linear-gradient(
+                0deg,
+                transparent,
+                transparent 2px,
+                rgba(139, 0, 255, 0.03) 2px,
+                rgba(139, 0, 255, 0.03) 4px
+            );
+            pointer-events: none;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .category-section {
+            margin-bottom: 80px;
+        }
+
+        .category-title {
+            text-align: center;
+            font-family: 'Rubik', sans-serif;
+            font-size: 2.2rem;
+            color: #fff;
+            margin-bottom: 15px;
+            font-weight: 700;
+            text-shadow: 
+                0 0 10px #8b00ff,
+                0 0 20px #8b00ff;
+            letter-spacing: 2px;
+        }
+
+        .category-subtitle {
+            text-align: center;
+            font-size: 1.1rem;
+            color: #8b00ff;
+            margin-bottom: 50px;
+            text-shadow: 0 0 10px #8b00ff;
+            font-weight: 600;
+        }
+
+        /* Cards Grid */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 35px;
+            padding: 20px 0;
+        }
+
+        .card {
+            background: linear-gradient(145deg, #1a0033, #0d0d0d);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 
+                0 0 30px rgba(139, 0, 255, 0.3),
+                inset 0 0 20px rgba(0, 0, 0, 0.5);
+            transition: all 0.4s ease;
+            cursor: pointer;
+            border: 2px solid rgba(139, 0, 255, 0.3);
+            position: relative;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                45deg,
+                transparent 30%,
+                rgba(139, 0, 255, 0.1) 50%,
+                transparent 70%
+            );
+            transform: rotate(45deg);
+            animation: shine 3s infinite;
+        }
+
+        @keyframes shine {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+        }
+
+        .card:hover {
+            transform: translateY(-15px) scale(1.02);
+            box-shadow: 
+                0 0 50px rgba(139, 0, 255, 0.6),
+                0 0 100px rgba(255, 0, 128, 0.4),
+                inset 0 0 30px rgba(0, 0, 0, 0.7);
+            border-color: #8b00ff;
+        }
+
+        .card-image {
+            width: 100%;
+            height: 180px;
+            background: linear-gradient(135deg, #1a0033 0%, #330066 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            border-bottom: 2px solid rgba(139, 0, 255, 0.5);
+        }
+
+        .card-image::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, transparent 30%, rgba(0, 0, 0, 0.8) 100%);
+        }
+
+        .card-icon {
+            font-size: 4.5rem;
+            z-index: 1;
+            position: relative;
+            filter: drop-shadow(0 0 20px #8b00ff) drop-shadow(0 0 40px #ff0080);
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { 
+                transform: scale(1);
+                filter: drop-shadow(0 0 20px #8b00ff) drop-shadow(0 0 40px #ff0080);
+            }
+            50% { 
+                transform: scale(1.1);
+                filter: drop-shadow(0 0 30px #8b00ff) drop-shadow(0 0 60px #ff0080);
+            }
+        }
+
+        .card-content {
+            padding: 25px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .card-title {
+            font-size: 1.4rem;
+            color: #fff;
+            margin-bottom: 12px;
+            font-weight: 700;
+            text-shadow: 0 0 10px #8b00ff;
+            letter-spacing: 1px;
+        }
+
+        .card-description {
+            color: #b8b8b8;
+            line-height: 1.6;
+            font-size: 0.92rem;
+            text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+            margin-bottom: 15px;
+        }
+
+        .card-install {
+            background: rgba(139, 0, 255, 0.1);
+            border: 1px solid rgba(139, 0, 255, 0.3);
+            border-radius: 8px;
+            padding: 12px;
+            margin-top: 12px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.85rem;
+            color: #00ffff;
+            text-shadow: 0 0 5px rgba(0, 255, 255, 0.5);
+            overflow-x: auto;
+            white-space: nowrap;
+        }
+
+        .card-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #8b00ff, #ff0080);
+            color: #fff;
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-top: 10px;
+            text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero p {
+                font-size: 1.1rem;
+            }
+
+            .category-title {
+                font-size: 1.8rem;
+            }
+
+            .cards-grid {
+                grid-template-columns: 1fr;
+                gap: 25px;
+            }
+
+            .catalog-section {
+                padding: 60px 15px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero p {
+                font-size: 1rem;
+            }
+
+            .card-content {
+                padding: 20px;
+            }
+
+            .card-icon {
+                font-size: 3.5rem;
+            }
+
+            .card-install {
+                font-size: 0.75rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Librerías de PNL<br>para Chatbots</h1>
+            <p>Procesamiento de Lenguaje Natural con Python</p>
+            <p class="hero-author">Hecho por Marco Antonio Flores Flores</p>
+        </div>
+    </section>
+
+    <!-- Catalog Section -->
+    <section class="catalog-section">
+        <div class="container">
+            
+            <!-- Categoría 1: Chatbots con PNL -->
+            <div class="category-section">
+                <h2 class="category-title">🤖 Chatbots con PNL</h2>
+                <p class="category-subtitle">Librerías basadas en procesamiento de lenguaje natural clásico</p>
+
+                <div class="cards-grid">
+                    <!-- NLTK -->
+                    <div class="card">
+                        <div class="card-image" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                            <div class="card-icon">📚</div>
+                        </div>
+                        <div class="card-content">
+                            <h3 class="card-title">NLTK</h3>
+                            <p class="card-description">Natural Language Toolkit - La biblioteca más completa para PNL. Incluye tokenización, análisis sintáctico, clasificación y más.</p>
+                            <div class="card-install">pip install nltk</div>
+                            <span class="card-badge">Clásico</span>
+                        </div>
+                    </div>
+
+                    <!-- spaCy -->
+                    <div class="card">
+                        <div class="card-image" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+                            <div class="card-icon">⚡</div>
+                        </div>
+                        <div class="card-content">
+                            <h3 class="card-title">spaCy</h3>
+                            <p class="card-description">Librería moderna y rápida para PNL industrial. Optimizada para producción con modelos preentrenados en múltiples idiomas.</p>
+                            <div class="card-install">pip install spacy</div>
+                            <span class="card-badge">Alto Rendimiento</span>
+                        </div>
+                    </div>
+
+                    <!-- ChatterBot -->
+                    <div class="card">
+                        <div class="card-image" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
+                            <div class="card-icon">💬</div>
+                        </div>
+                        <div class="card-content">
+                            <h3 class="card-title">ChatterBot</h3>
+                            <p class="card-description">Biblioteca específica para crear chatbots conversacionales. Aprende de conversaciones y mejora con el tiempo.</p>
+                            <div class="card-install">pip install chatterbot</div>
+                            <span class="card-badge">Conversacional</span>
+                        </div>
+                    </div>
+
+                    <!-- TextBlob -->
+                    <div class="card">
+                        <div class="card-image" style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);">
+                            <div class="card-icon">🎯</div>
+                        </div>
+                        <div class="card-content">
+                            <h3 class="card-title">TextBlob</h3>
+                            <p class="card-description">API simple para tareas comunes de PNL. Ideal para principiantes con análisis de sentimientos y traducción integrados.</p>
+                            <div class="card-install">pip install textblob</div>
+                            <span class="card-badge">Fácil</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Categoría 2: Chatbots con IA -->
+            <div class="category-section">
+                <h2 class="category-title">🧠 Chatbots con IA</h2>
+                <p class="category-subtitle">Librerías con inteligencia artificial y modelos de lenguaje avanzados</p>
+
+                <div class="cards-grid">
+                    <!-- Transformers -->
+                    <div class="card">
+                        <div class="card-image" style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);">
+                            <div class="card-icon">🤗</div>
+                        </div>
+                        <div class="card-content">
+                            <h3 class="card-title">Transformers (Hugging Face)</h3>
+                            <p class="card-description">Acceso a modelos de IA de última generación como GPT, BERT, T5. La librería más popular para modelos transformers.</p>
+                            <div class="card-install">pip install transformers</div>
+                            <span class="card-badge">State-of-the-art</span>
+                        </div>
+                    </div>
+
+                    <!-- Rasa -->
+                    <div class="card">
+                        <div class="card-image" style="background: linear-gradient(135deg, #30cfd0 0%, #330867 100%);">
+                            <div class="card-icon">🎭</div>
+                        </div>
+                        <div class="card-content">
+                            <h3 class="card-title">Rasa</h3>
+                            <p class="card-description">Framework completo para chatbots contextuales con IA. Incluye NLU, gestión de diálogos y aprendizaje automático.</p>
+                            <div class="card-install">pip install rasa</div>
+                            <span class="card-badge">Empresarial</span>
+                        </div>
+                    </div>
+
+                    <!-- OpenAI -->
+                    <div class="card">
+                        <div class="card-image" style="background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);">
+                            <div class="card-icon">🚀</div>
+                        </div>
+                        <div class="card-content">
+                            <h3 class="card-title">OpenAI API</h3>
+                            <p class="card-description">Acceso a GPT-4 y ChatGPT. Permite crear chatbots con las capacidades más avanzadas de IA conversacional.</p>
+                            <div class="card-install">pip install openai</div>
+                            <span class="card-badge">Premium</span>
+                        </div>
+                    </div>
+
+                    <!-- LangChain -->
+                    <div class="card">
+                        <div class="card-image" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                            <div class="card-icon">⛓️</div>
+                        </div>
+                        <div class="card-content">
+                            <h3 class="card-title">LangChain</h3>
+                            <p class="card-description">Framework para desarrollar aplicaciones con modelos de lenguaje. Facilita la creación de chatbots con memoria y contexto.</p>
+                            <div class="card-install">pip install langchain</div>
+                            <span class="card-badge">Moderno</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Categoría 3: Chatbots conectados a plataformas -->
+            <div class="category-section">
+                <h2 class="category-title">📱 Chatbots Conectados a Plataformas</h2>
+                <p class="category-subtitle">Integración con WhatsApp, Telegram, Discord y más</p>
+
+                <div class="cards-grid">
+                    <!-- Twilio -->
+                    <div class="card">
+                        <div class="card-image" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+                            <div class="card-icon">📞</div>
+                        </div>
+                        <div class="card-content">
+                            <h3 class="card-title">Twilio</h3>
+                            <p class="card-description">API para integrar chatbots con WhatsApp, SMS y llamadas. Solución profesional para comunicación multicanal.</p>
+                            <div class="card-install">pip install twilio</div>
+                            <span class="card-badge">WhatsApp</span>
+                        </div>
+                    </div>
+
+                    <!-- Python Telegram Bot -->
+                    <div class="card">
+                        <div class="card-image" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
+                            <div class="card-icon">✈️</div>
+                        </div>
+                        <div class="card-content">
+                            <h3 class="card-title">Python-Telegram-Bot</h3>
+                            <p class="card-description">Wrapper completo de la API de Telegram. Crea bots interactivos con comandos, inline keyboards y más.</p>
+                            <div class="card-install">pip install python-telegram-bot</div>
+                            <span class="card-badge">Telegram</span>
+                        </div>
+                    </div>
+
+                    <!-- Discord.py -->
+                    <div class="card">
+                        <div class="card-image" style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);">
+                            <div class="card-icon">🎮</div>
+                        </div>
+                        <div class="card-content">
+                            <h3 class="card-title">Discord.py</h3>
+                            <p class="card-description">Librería para crear bots de Discord. Maneja eventos, comandos, embeds y toda la funcionalidad de Discord.</p>
+                            <div class="card-install">pip install discord.py</div>
+                            <span class="card-badge">Discord</span>
+                        </div>
+                    </div>
+
+                    <!-- Facebook Messenger -->
+                    <div class="card">
+                        <div class="card-image" style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);">
+                            <div class="card-icon">💙</div>
+                        </div>
+                        <div class="card-content">
+                            <h3 class="card-title">fbchat</h3>
+                            <p class="card-description">API no oficial de Facebook Messenger. Permite crear bots automatizados para Facebook Messenger.</p>
+                            <div class="card-install">pip install fbchat</div>
+                            <span class="card-badge">Facebook</span>
+                        </div>
+                    </div>
+
+                    <!-- Slack Bot -->
+                    <div class="card">
+                        <div class="card-image" style="background: linear-gradient(135deg, #30cfd0 0%, #330867 100%);">
+                            <div class="card-icon">💼</div>
+                        </div>
+                        <div class="card-content">
+                            <h3 class="card-title">Slack SDK</h3>
+                            <p class="card-description">SDK oficial de Slack para Python. Crea bots empresariales con integración completa a Slack.</p>
+                            <div class="card-install">pip install slack-sdk</div>
+                            <span class="card-badge">Slack</span>
+                        </div>
+                    </div>
+
+                    <!-- WhatsApp Web -->
+                    <div class="card">
+                        <div class="card-image" style="background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);">
+                            <div class="card-icon">💚</div>
+                        </div>
+                        <div class="card-content">
+                            <h3 class="card-title">pywhatkit</h3>
+                            <p class="card-description">Automatización de WhatsApp Web. Envía mensajes programados y crea bots simples para WhatsApp.</p>
+                            <div class="card-install">pip install pywhatkit</div>
+                            <span class="card-badge">WhatsApp Web</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Categoría 4: Chatbots en páginas web -->
+            <div class="category-section">
+                <h2 class="category-title">🌐 Chatbots en Páginas Web</h2>
+                <p class="category-subtitle">Frameworks para integrar chatbots en sitios web</p>
+
+                <div class="cards-grid">
+                    <!-- Flask -->
+                    <div class="card">
+                        <div class="card-image" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                            <div class="card-icon">🌶️</div>
+                        </div>
+                        <div class="card-content">
+                            <h3 class="card-title">Flask</h3>
+                            <p class="card-description">Micro-framework web ligero. Ideal para crear APIs REST que conecten tu chatbot con el frontend web.</p>
+                            <div class="card-install">pip install flask</div>
+                            <span class="card-badge">Backend</span>
+                        </div>
+                    </div>
+
+                    <!-- FastAPI -->
+                    <div class="card">
+                        <div class="card-image" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+                            <div class="card-icon">⚡</div>
+                        </div>
+                        <div class="card-content">
+                            <h3 class="card-title">FastAPI</h3>
+                            <p class="card-description">Framework web moderno y rápido. Perfecto para APIs de chatbot con documentación automática y validación.</p>
+                            <div class="card-install">pip install fastapi uvicorn</div>
+                            <span class="card-badge">Async</span>
+                        </div>
+                    </div>
+
+                    <!-- Streamlit -->
+                    <div class="card">
+                        <div class="card-image" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
+                            <div class="card-icon">🎨</div>
+                        </div>
+                        <div class="card-content">
+                            <h3 class="card-title">Streamlit</h3>
+                            <p class="card-description">Crea interfaces web interactivas en minutos. Ideal para prototipos rápidos de chatbots con interfaz visual.</p>
+                            <div class="card-install">pip install streamlit</div>
+                            <span class="card-badge">UI Rápida</span>
+                        </div>
+                    </div>
+
+                    <!-- Gradio -->
+                    <div class="card">
+                        <div class="card-image" style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);">
+                            <div class="card-icon">🎭</div>
+                        </div>
+                        <div class="card-content">
+                            <h3 class="card-title">Gradio</h3>
+                            <p class="card-description">Framework para crear demos web de ML. Convierte tu modelo de chatbot en una aplicación web compartible.</p>
+                            <div class="card-install">pip install gradio</div>
+                            <span class="card-badge">Demo ML</span>
+                        </div>
+                    </div>
+
+                    <!-- Socket.IO -->
+                    <div class="card">
+                        <div class="card-image" style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);">
+                            <div class="card-icon">🔌</div>
+                        </div>
+                        <div class="card-content">
+                            <h3 class="card-title">Socket.IO</h3>
+                            <p class="card-description">Comunicación en tiempo real entre cliente y servidor. Perfecto para chatbots web con respuestas instantáneas.</p>
+                            <div class="card-install">pip install python-socketio</div>
+                            <span class="card-badge">Real-time</span>
+                        </div>
+                    </div>
+
+                    <!-- Botpress -->
+                    <div class="card">
+                        <div class="card-image" style="background: linear-gradient(135deg, #30cfd0 0%, #330867 100%);">
+                            <div class="card-icon">🤖</div>
+                        </div>
+                        <div class="card-content">
+                            <h3 class="card-title">Botpress SDK</h3>
+                            <p class="card-description">Plataforma completa de chatbot con interfaz visual. Fácil integración en sitios web con widget personalizable.</p>
+                            <div class="card-install">pip install botpress</div>
+                            <span class="card-badge">Todo-en-uno</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+</body>
+</html>
